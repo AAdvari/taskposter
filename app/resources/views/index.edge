@@ -1,0 +1,20 @@
+@layout('layouts.main')
+
+@section('title')
+TaskManager - Post your Tasks 
+@endsection
+
+@section('content')
+  <h1>All Task</h1>
+
+
+  @each(task in tasks)
+  <div class="task-container">
+    <div class="blank"></div>
+    <div class="task-info">
+      <h3><a href="{{task.link}}"></a>{{task.title}}</h3>
+      <p>{{task.description}}</p>
+    </div>
+  </div>
+  @endeach
+@endsection

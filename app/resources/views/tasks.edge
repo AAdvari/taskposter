@@ -1,0 +1,65 @@
+@layout('layouts.main')
+
+@section('title')
+TaskManager - Post your Task
+@endsection
+
+@section('extracss')
+{{ style('forms') }}
+@endsection
+
+@section('content')
+  <h1>Post a Task</h1>
+
+
+  <div class="task-container">
+    @if(flashMessage('message'))
+        <span>{{ flashMessage('message') }}</span>
+    @endif
+        <form action="{{ route('TaskController.create') }}" method="POST">
+          {{ csrfField() }}
+  
+          <label for="title">Task Title</label>
+          <input type="text" name="title" value="{{ old('title', '') }}">
+          @if(hasErrorFor('title'))
+              <span>
+                  {{ getErrorFor('title') }}
+              </span>
+          @endif
+  
+          <label for="link">Link URL</label>
+          <input type="text" name="link" value="{{ old('link', '') }}">
+          @if(hasErrorFor('link'))
+              <span>
+                  {{ getErrorFor('link') }}
+              </span>
+          @endif
+  
+          <label for="description">Description</label>
+          <input type="text" name="description">
+          @if(hasErrorFor('description'))
+              <span>
+                  {{ getErrorFor('description') }}
+              </span>
+          @endif
+  
+          <button type="submit">Submit a Task</button>
+        </form>
+    </div>
+
+<h2>My Tasks</h2>
+
+  @each(task in tasks)
+  <div class="task-container2">
+    <div class="blank"></div>
+    <div class="task-info">
+      <h3><a href="{{ task.link }}">{{ task.title }}</a></h3>
+      <p>{{ task.description }}</p>
+      <ul>
+          <li><a href="{{ route('TaskController.delete', { id: task.id }) }}">Delete</a></li>
+          <li><a href="{{ route('TaskController.edit', { id: task.id }) }}">Edit</a></li>
+      </ul>
+    </div>
+  </div>
+  @endeach
+@endsection
